@@ -72,7 +72,8 @@ We welcome contributions to the Lung-on-a-Chip project! If you find any issues, 
 For any inquiries or further information about the project, please contact:
 
 - Project Lead: [Jakson Luk](mailto:jakson.luk@crick.ac.uk)
-- Image Analyst: [Nathan Day](mailto:nathan.day@crick.ac.uk)
+- Image Analyst/Software: [Nathan Day](mailto:nathan.day@crick.ac.uk)
+- Laboratory Research Scientist/Legal Specialist with a focus on copyright law: [Gabriel Conway](mailto:gabriel.conway@crick.ac.uk)
 - Francis Crick Institute: [Website](https://www.crick.ac.uk)
 - Alveolix: [Website](https://www.alveolix.com)
 
