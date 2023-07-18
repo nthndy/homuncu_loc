@@ -1,0 +1,11 @@
+name: loc
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - jupyterlab
+  - ipykernel
+  - scikit-image
+  - napari
+  - cvxopt
+prefix: /Users/dayn/opt/anaconda3/envs/loc
