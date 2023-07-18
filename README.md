@@ -1,4 +1,4 @@
-# homunculoc: Single-Cell Segmentation and Tracking for the Lung-on-a-Chip project
+# homunculoc: single-cell segmentation and tracking for the Lung-on-a-Chip project
 
 ![temp logo: Immunofluorescence staining of the apical iLoC on AX Lung-on-chip memebrane after iLoC assembly; DAPI (cyan), mature SP-C (magenta), PDPN (yellow) and ZO-1 (white).](landing_image.png)
 
