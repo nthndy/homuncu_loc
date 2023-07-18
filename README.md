@@ -24,7 +24,7 @@ To install and set up the project, please follow these steps:
 
 1. Clone the repository to your local machine:
 
-`git clone https://github.com/your-username/lung-on-a-chip.git`
+`git clone https://github.com/your-username/homunculoc.git`
 
 2. Install the required dependencies listed in the [Dependencies](#dependencies) section.
 3. Set up the Python environment by creating a virtual environment (optional but recommended) and installing the necessary packages. Example using `venv`:
