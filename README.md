@@ -1,6 +1,6 @@
 # homunculoc: Single-Cell Segmentation and Tracking for the Lung-on-a-Chip project
 
-![Project Logo](path/to/logo.png)
+![Project Logo](![image](https://github.com/nthndy/homunculoc/assets/16838461/a1bb265f-90ba-4b29-9bc1-7e8ebacdd53f))
 
 Welcome to the *homunculoc* project repository! This project aims to study host-pathogen interactions using a Lung-on-a-Chip platform at the Francis Crick Institute in collaboration with Alveolix. The repository provides tools for single-cell segmentation and tracking of lung-on-a-chip samples, enabling quantification of cell type and behavior. This README will guide you through the project and its components.
 
