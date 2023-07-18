@@ -61,7 +61,7 @@ Ensure that these dependencies are installed and configured correctly before run
 
 ## License
 
-This project is licensed under the **Private License**. For more information, please see the [LICENSE](./LICENSE.md) file.
+This project is licensed under the **Private License**. For more information, please see the [LICENSE](LICENSE.md) file.
 
 ## Contributing
 
