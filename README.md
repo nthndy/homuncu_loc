@@ -2,7 +2,7 @@
 
 ![temp logo: Immunofluorescence staining of the apical iLoC on AX Lung-on-chip memebrane after iLoC assembly; DAPI (cyan), mature SP-C (magenta), PDPN (yellow) and ZO-1 (red).](loc_landing.gif)
 
-Welcome to the _*homunculoc*_ project repository! This project aims to study host-pathogen interactions using a Lung-on-a-Chip platform at the Francis Crick Institute in collaboration with Alveolix. The repository provides tools for single-cell segmentation and tracking of lung-on-a-chip samples, enabling quantification of cell type and behavior. This README will guide you through the project and its components.
+Welcome to the _*homunculoc*_ project repository. This project aims to study host-pathogen interactions using a Lung-on-a-Chip platform at the Francis Crick Institute in collaboration with Alveolix. The repository provides tools for single-cell segmentation and tracking of lung-on-a-chip samples, enabling quantification of cell type and behavior. This README will guide you through the project and its components.
 
 ## Table of Contents
 
