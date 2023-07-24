@@ -18,22 +18,24 @@ Welcome to the _*homunculoc*_ project repository. This project aims to study hos
 
 The Lung-on-a-Chip project aims to replicate and study the complex interactions between host cells and pathogens in a controlled microfluidic environment. This repository contains code and resources to perform single-cell segmentation and tracking, facilitating the analysis and quantification of cellular behavior within the lung-on-a-chip system.
 
+The repository is currently split into two major parts: labelling and quantification. The labelling section contains a notebook(s) to segment and track cells over 3 dimensions whilst the quantification section uses the previously generated tracks to quantify cell type and behaviour. Each section contains an archive (`arx`) that contains the previously created work-in-progress code that went into forming the final polished notebooks. 
+
 ## Installation
 
 To install and set up the project, please follow these steps:
 
 1. Clone the repository to your local machine:
 
-`git clone https://github.com/your-username/homunculoc.git`
+`git clone https://github.com/your-username/homuncu_loc.git`
 
-2. Install the required dependencies listed in the [Dependencies](#dependencies) section.
-3. Set up the Python environment by creating a virtual environment (optional but recommended) and installing the necessary packages. Example using `venv`:
+2. Install the required dependencies listed in the [Dependencies](#dependencies) section or install the provided conda environment `environment.yml`:
 
-``python3 -m venv env
-source env/bin/activate
-pip install -r requirements.txt``
+``cd homonucu_loc
+conda env create -f environment.yml
+conda activate loc
+``
 
-4. Install the Python package `btrack` by following the instructions provided in its documentation.
+This environment has been tested on `x86_64` `macos>=11` and `ubuntu>=20.04`.
 
 ## Usage
 
