@@ -1,0 +1,8 @@
+numpy
+scikit-image
+btrack
+napari
+cellpose
+
+[tests]
+pytest
