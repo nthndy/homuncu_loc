@@ -23,8 +23,14 @@ function processFiles(dirPath) {
                 title = title.substring(0, extIndex);
             }
 
-            // Save the image as TIF in the same directory
-            saveAs("Tiff", dirPath + title + ".tif");
+            // Check if the TIF file already exists
+            tifFilePath = dirPath + title + ".tif";
+            if (File.exists(tifFilePath)) {
+                print("TIF file already exists: " + tifFilePath);
+            } else {
+                // Save the image as TIF in the same directory
+                saveAs("Tiff", tifFilePath);
+            }
 
             // Close the image to free memory
             close();
