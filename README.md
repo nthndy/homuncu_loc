@@ -54,10 +54,9 @@ Please note that the repository is organized into directories based on different
 
 The Lung-on-a-Chip project relies on the following dependencies:
 
-- Python (version X.X.X)
-- Jupyter Notebook (version X.X.X)
-- btrack (version X.X.X)
-- Other Python packages listed in the requirements.txt file
+- Python (version 3.9.12)
+- btrack (version 0.6.3)
+- Other Python packages listed in the `environment.yml` file
 
 Ensure that these dependencies are installed and configured correctly before running the project.
 
