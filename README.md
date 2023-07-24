@@ -31,9 +31,9 @@ To install and set up the project, please follow these steps:
 2. Install the required dependencies listed in the [Dependencies](#dependencies) section or install the provided conda environment `environment.yml`:
 
 ```
-cd homonucu_loc  
-conda env create -f environment.yml  
-conda activate loc  
+    cd homonucu_loc  
+    conda env create -f environment.yml  
+    conda activate loc  
 ```
 
 This environment has been tested on `x86_64` `macos>=11` and `ubuntu>=20.04`.
