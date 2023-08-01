@@ -1,11 +1,60 @@
 from tqdm.auto import tqdm
 import numpy as np
 from skimage.morphology import binary_erosion, label
+import numpy as np
+from skimage.measure import regionprops
 
 class ImageDimensionError(Exception):
     def __init__(self, expected_dimensionality, received_dimensionality):
         message = f"Invalid image dimensionality. Expected {expected_dimensionality}-dimensional image, but received {received_dimensionality}-dimensional image."
         super().__init__(message)
+
+
+def remove_small_segments(mask_stack, threshold_size=1000):
+    """
+    Remove small segments from a stack of binary masks.
+
+    This function iterates over a stack of binary masks (mask_stack) representing segmented objects and removes
+    small segments whose total area is less than the specified threshold_size.
+
+    Parameters:
+        mask_stack (numpy.ndarray): A 3D NumPy array containing a stack of binary masks.
+                                   Each 2D mask represents segmented objects with labeled regions.
+                                   Non-zero values in each mask indicate different segments.
+        threshold_size (int, optional): The minimum area (in pixels) for a segment to be considered significant
+                                        and not removed. Segments with an area less than threshold_size will be
+                                        set to 0 (removed). Default value is 1000.
+
+    Returns:
+        numpy.ndarray: A modified version of the input mask_stack with small segments removed.
+
+    Note:
+        This function modifies the input mask_stack in place. If you want to preserve the original data,
+        make a copy of the mask_stack before calling this function.
+
+    Examples:
+        # Example usage:
+        import numpy as np
+        from skimage.measure import regionprops
+
+        # Assuming you have a 3D mask_stack and want to remove segments smaller than 500 pixels.
+        modified_mask_stack = remove_small_segments(mask_stack, threshold_size=500)
+    """
+    # Check the dimensionality of the input mask_stack
+    if len(mask_stack.shape) != 3:
+        raise ImageDimensionError(expected_dimensionality=3, received_dimensionality=len(mask_stack.shape))
+
+    # Iterate over each frame (2D mask) in the mask_stack
+    for n, frame in tqdm(enumerate(mask_stack), desc='Iterating over frames', total=len(mask_stack)):
+        # Get coordinates of segments with area less than threshold_size using regionprops
+        coords = [props.coords for props in regionprops(frame) if props.area < threshold_size]
+
+        # Iterate over each segment's coordinates and set them to 0 (remove small segments)
+        for segment_coords in coords:
+            for x, y in segment_coords:
+                frame[x, y] = 0
+
+    return mask_stack
 
 
 def instance_to_semantic(instance_image):
