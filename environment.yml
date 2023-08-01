@@ -4,8 +4,10 @@ channels:
 dependencies:
   - python=3.9
   - jupyterlab
-  - ipykernel
-  - scikit-image
-  - napari
-  - cvxopt
+  - pip
+  - pip:
+    - napari
+    - ipykernel
+    - scikit-image
+    - cvxopt
 prefix: /Users/dayn/opt/anaconda3/envs/loc
