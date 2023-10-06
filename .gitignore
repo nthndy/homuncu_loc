@@ -1,0 +1,15 @@
+__pycache__
+.DS_Store
+*.egg-info/
+*.pkl
+*.pickle
+*.tif
+*.tiff
+*.jpg
+*.png
+*.ipynb_checkpoints*
+*.h5
+*.hdf5
+notify.py
+*.npy
+aws_tools.py
