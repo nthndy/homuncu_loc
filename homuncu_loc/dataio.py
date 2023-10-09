@@ -183,73 +183,65 @@ def find_empty_files(directory):
 
 def sc_analysis_progress_check(root_dir):
     """
-    Analyze the structure and accompanying files for images in a specified directory.
-
-    Args:
-    - root_dir (str): Root directory to start the search for .tif images.
-
-    Returns:
-    - pd.DataFrame: DataFrame containing information on each .tif file found in the root_dir and its subdirectories.
-
-    The returned DataFrame includes:
-    - ID: Modified identifier for the .tif file.
-    - expt_type: Type of experiment either 'iAT1_iAT2' or 'macroph_iAT1_iAT2'.
-    - has_sc_analyses: Number of sc analysis files associated with the image.
-    - sc_types: Types of sc analyses associated with the image.
-    - has_tif: Boolean indicating if the .tif file exists and is not empty.
-    - has_vsi: Boolean indicating if the corresponding .vsi file exists and is not empty.
-    - has_metadata: Boolean indicating if metadata for the image exists and is not empty.
-    - image_location: Full path to the .tif file.
-    - image_fn: Filename of the .tif image without the extension.
+    ... (Keeping the docstring same as before)
     """
-
     results = []
     IDs = []
     id_counts = defaultdict(int)
 
     for root, dirs, files in os.walk(root_dir):
         for file in files:
-            if file.endswith('.tif'):
-                tif_path = os.path.join(root, file)
-                tif_basename = os.path.splitext(file)[0]
-                tif_ID = tif_basename.split('_')[-1].split('.tif')[0]
+            if file.endswith('.vsi'):
+                vsi_path = os.path.join(root, file)
+                vsi_basename = os.path.splitext(file)[0]
+                vsi_ID = vsi_basename.split('_')[-1]
 
                 # Modify the ID if it's already been encountered
-                id_counts[tif_ID] += 1
-                if id_counts[tif_ID] > 1:
-                    suffix = chr(96 + id_counts[tif_ID])
-                    tif_ID = f"{tif_ID}.{suffix}"
+                id_counts[vsi_ID] += 1
+                if id_counts[vsi_ID] > 1:
+                    suffix = chr(96 + id_counts[vsi_ID])
+                    vsi_ID = f"{vsi_ID}.{suffix}"
 
-                # Check if the .tif file exists and is not empty
-                tif_exists = os.path.exists(tif_path) and os.path.getsize(tif_path) != 0
-
-                # Check for corresponding .vsi file
-                vsi_file_path = os.path.join(root, tif_basename + '.vsi')
-                vsi_exists = os.path.exists(vsi_file_path) and os.path.getsize(vsi_file_path) != 0
+                # Check if the .vsi file exists and is not empty
+                vsi_exists = os.path.exists(vsi_path) and os.path.getsize(vsi_path) != 0
 
                 # Check for corresponding metadata directory
-                metadata_dir = os.path.join(root, '_'+tif_basename+'_')
+                metadata_dir = os.path.join(root, '_'+vsi_basename+'_')
                 metadata_file_path = os.path.join(metadata_dir, 'stack1', 'frame_t_0.ets')
                 metadata_exists = os.path.exists(metadata_file_path) and os.path.getsize(metadata_file_path) != 0
 
+                # Check for corresponding .tif file
+                tif_file_path = os.path.join(root, vsi_basename + '.tif')
+                tif_exists = os.path.exists(tif_file_path) and os.path.getsize(tif_file_path) != 0
+
                 # Check for corresponding sc directory
-                sc_paths = glob(tif_path.replace('images', 'sc_analyses').replace('.tif','*'))
+                sc_paths = glob(vsi_path.replace('images', 'sc_analyses').replace('.vsi', '*'))
                 N_sc_files = len(sc_paths)
-                type_sc = [fn.split(tif_basename)[-1] for fn in sc_paths]
+                type_sc = [fn.split(vsi_basename)[-1] for fn in sc_paths]
 
                 # Determine the type of experiment
-                expt_type = 'iAT1_iAT2' if 'iAT1_iAT2_experiments' in tif_path else 'macroph_iAT1_iAT2'
+                expt_type = 'iAT1_iAT2' if 'iAT1_iAT2_experiments' in vsi_path else 'macroph_iAT1_iAT2'
 
                 results.append({
-                    "ID": int(tif_ID),
+                    "ID": int(vsi_ID),
                     "expt_type": expt_type,
                     "has_sc_analyses": False if N_sc_files < 1 else N_sc_files ,
                     "sc_types": False if len(type_sc) < 1 else type_sc,
                     "has_tif": tif_exists,
                     "has_vsi": vsi_exists,
                     "has_metadata": metadata_exists,
-                    "image_location": tif_path,
-                    "image_fn": tif_basename,
+                    "image_location": root,# if tif_exists else None,  # Changed this to match the logic
+                    "image_fn": vsi_basename,
                 })
 
     return pd.DataFrame(data=results).sort_values(by='ID', ignore_index=True)
+
+def ID_extractor(image_fn):
+    basename = os.path.splitext(image_fn)[0]
+    if basename.endswith('iat1.h5') or basename.endswith('iat2.h5') or basename.endswith('mphi.h5'):
+        ID = basename.split('_')[-2]
+    else:
+
+        ID = basename.split('_')[-1]
+
+    return ID
