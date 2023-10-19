@@ -236,6 +236,7 @@ def sc_analysis_progress_check(root_dir):
 
     return pd.DataFrame(data=results).sort_values(by='ID', ignore_index=True)
 
+
 def ID_extractor(image_fn):
     basename = os.path.splitext(image_fn)[0]
     if basename.endswith('iat1.h5') or basename.endswith('iat2.h5') or basename.endswith('mphi.h5'):
@@ -245,3 +246,10 @@ def ID_extractor(image_fn):
         ID = basename.split('_')[-1]
 
     return ID
+
+
+def find_image_directory(top_dir, image_base_name):
+    for dirpath, dirnames, filenames in os.walk(top_dir):
+        if image_base_name in filenames:
+            return dirpath
+    return None
