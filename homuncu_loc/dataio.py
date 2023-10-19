@@ -238,17 +238,39 @@ def sc_analysis_progress_check(root_dir):
 
 
 def ID_extractor(image_fn):
+    """
+    Extracts the ID from the provided image filename.
+
+    The function assumes specific naming conventions. If the filename ends with
+    'iat1.h5', 'iat2.h5', or 'mphi.h5', it extracts the second-to-last part of
+    the basename after splitting on underscores. Otherwise, it extracts the last
+    part of the basename.
+
+    Parameters:
+    - image_fn (str): The image filename from which the ID should be extracted.
+
+    Returns:
+    - str: Extracted ID from the image filename.
+    """
     basename = os.path.splitext(image_fn)[0]
     if basename.endswith('iat1.h5') or basename.endswith('iat2.h5') or basename.endswith('mphi.h5'):
         ID = basename.split('_')[-2]
     else:
-
         ID = basename.split('_')[-1]
-
     return ID
 
 
 def find_image_directory(top_dir, image_base_name):
+    """
+    Searches for the directory containing the specified image name within the top directory and its subdirectories.
+
+    Parameters:
+    - top_dir (str): The top-most directory where the search should begin.
+    - image_base_name (str): The name of the image file to search for.
+
+    Returns:
+    - str or None: The directory path where the image was found. If the image is not found, returns None.
+    """
     for dirpath, dirnames, filenames in os.walk(top_dir):
         if image_base_name in filenames:
             return dirpath
