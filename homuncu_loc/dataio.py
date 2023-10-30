@@ -3,6 +3,59 @@ import os
 import pandas as pd
 from collections import defaultdict
 from glob import glob
+import gspread
+import pandas as pd
+
+def load_expt_dir():
+    """
+    Load experiment data from a Google Sheets document.
+
+    Returns:
+        pd.DataFrame: A dataframe containing the data from the Google Sheet.
+    """
+    # Define the path to the credentials JSON file
+    credentials_path = '/home/dayn/analysis/homuncu_loc/homuncu_loc/homunc_dir.json'
+
+    # Define the title of the Google Spreadsheet
+    spreadsheet_title = 'homunculoc_expt_directory'
+
+    # Define the title of the worksheet
+    worksheet_title = 'main'
+
+    try:
+        # Load the credentials
+        gc = gspread.service_account(filename=credentials_path)
+
+        # Open the Google Spreadsheet using its title
+        spreadsheet = gc.open(spreadsheet_title)
+
+        # Select the worksheet by title
+        worksheet = spreadsheet.worksheet(worksheet_title)
+
+        # Get all values from the worksheet
+        data = worksheet.get_all_values()
+
+        # Check if data is empty
+        if not data:
+            print("The worksheet is empty.")
+            return pd.DataFrame()
+
+        # Convert the data to a pandas dataframe
+        df = pd.DataFrame(data, columns=data[0]).iloc[1:]
+
+        return df
+
+    except gspread.SpreadsheetNotFound:
+        print(f"Spreadsheet with title '{spreadsheet_title}' not found.")
+        return pd.DataFrame()
+
+    except gspread.WorksheetNotFound:
+        print(f"Worksheet with title '{worksheet_title}' not found in spreadsheet '{spreadsheet_title}'.")
+        return pd.DataFrame()
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return pd.DataFrame()
 
 
 def find_h5_files(root_dir):
