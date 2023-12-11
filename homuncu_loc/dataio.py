@@ -5,6 +5,76 @@ from collections import defaultdict
 from glob import glob
 import gspread
 import pandas as pd
+import btrack
+import shutil
+
+def try_load_nemo_h5(sc_fn, return_options=['tracks', 'masks']):
+    """
+    Attempts to load single-cell analysis data (tracks and/or masks) from an HDF5 file.
+
+    This function tries to open an HDF5 file specified by `sc_fn` to extract single-cell analysis data.
+    The data can include 'tracks', 'masks', or both, based on the `return_options` parameter.
+    If the file cannot be accessed from its original location, the function attempts to copy it to a local directory and access it from there.
+
+    Parameters:
+    sc_fn (str): Path to the HDF5 file containing single-cell analysis data.
+    return_options (list of str, optional): A list specifying the types of data to return.
+        Options include 'tracks', 'masks', or both. Defaults to ['tracks', 'masks'].
+
+    Returns:
+    tuple: A tuple containing the requested data. Each element of the tuple corresponds to one of the `return_options`.
+        Returns (None, None) if neither tracks nor masks can be loaded due to errors.
+
+    Raises:
+    Exception: Propagates any exceptions encountered during file loading or copying.
+
+    Notes:
+    - If an error occurs while loading the file from its original location, the function will attempt to copy the file to './temp_sc_dir' and load it from there.
+    - If the file cannot be loaded even from the local copy, the function prints an error message and returns (None, None).
+
+    Example usage:
+    tracks, masks = try_load_nemo_h5('/path/to/file.h5', return_options=['tracks', 'masks'])
+    """
+
+    masks = None  # Initialize masks variable as None
+    tracks = None  # Initialize tracks variable as None
+
+    try:
+        with btrack.io.HDF5FileHandler(sc_fn, 'r', obj_type='obj_type_1') as reader:
+            if 'masks' in return_options:
+                masks = reader.segmentation  # Assign segmentation masks data to masks variable
+            if 'tracks' in return_options:
+                tracks = reader.tracks  # Assign tracks data to tracks variable
+
+    except Exception as e:  # Catch any exceptions during file opening
+        print(f"Failed to load from server location: {e}. Attempting to copy file locally.")
+
+        temp_sc_dir = './temp_sc_dir' # Define name of temporary local directory
+        os.makedirs(temp_sc_dir, exist_ok=True)  # Create temporary directory if it doesn't exist
+        local_sc_fn = os.path.join(temp_sc_dir, os.path.basename(sc_fn))  # Define local file path
+        shutil.copy(sc_fn, local_sc_fn)  # Copy file from server location to local directory
+        print(f"Copied {sc_fn} to {local_sc_fn}")  # Print success message
+
+        try:
+            with btrack.io.HDF5FileHandler(local_sc_fn, 'r', obj_type='obj_type_1') as reader:
+                if 'masks' in return_options:
+                    masks = reader.segmentation  # Assign segmentation masks data to masks variable
+                if 'tracks' in return_options:
+                    tracks = reader.tracks  # Assign tracks data to tracks variable
+            print("Loaded file from local copy successfully.")  # Print success message
+        except Exception as e:
+            print(f"Failed to load file from local copy: {e}")
+            return None, None  # Return None, None indicating both masks and tracks are not available
+
+    # Return based on the specified options
+    return_values = []
+    if 'tracks' in return_options:
+        return_values.append(tracks)  # Append tracks to return_values list
+    if 'masks' in return_options:
+        return_values.append(masks)  # Append masks to return_values list
+
+    return tuple(return_values)  # Return return_values as a tuple
+
 
 def load_expt_dir():
     """
