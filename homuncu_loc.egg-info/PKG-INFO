@@ -19,10 +19,16 @@ Classifier: Operating System :: Unix
 Classifier: Operating System :: MacOS
 Requires-Python: >=3.7
 Description-Content-Type: text/markdown
-Provides-Extra: tests
 License-File: LICENSE.md
+Requires-Dist: numpy
+Requires-Dist: scikit-image
+Requires-Dist: btrack
+Requires-Dist: napari
+Requires-Dist: cellpose
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
 
-# _homunculoc_: single-cell segmentation and tracking for the Lung-on-a-Chip project
+# _homuncu_loc_: single-cell segmentation and tracking for the Lung-on-a-Chip project
 
 ![temp logo: Immunofluorescence staining of the apical iLoC on AX Lung-on-chip memebrane after iLoC assembly; DAPI (cyan), mature SP-C (magenta), PDPN (yellow) and ZO-1 (red).](loc_landing.gif)
 
@@ -42,7 +48,7 @@ Welcome to the _*homunculoc*_ project repository. This project aims to study hos
 
 The Lung-on-a-Chip project aims to replicate and study the complex interactions between host cells and pathogens in a controlled microfluidic environment. This repository contains code and resources to perform single-cell segmentation and tracking, facilitating the analysis and quantification of cellular behavior within the lung-on-a-chip system.
 
-The repository is currently split into two major parts: labelling and quantification. The labelling section contains a notebook(s) to segment and track cells over 3 dimensions whilst the quantification section uses the previously generated tracks to quantify cell type and behaviour. Each section contains an archive (`arx`) that contains the previously created work-in-progress code that went into forming the final polished notebooks. 
+The repository is currently split into two major parts: labelling and quantification. The labelling section contains a notebook(s) to segment and track cells over 3 dimensions whilst the quantification section uses the previously generated tracks to quantify cell type and behaviour. Each section contains an archive (`arx`) that contains the previously created work-in-progress code that went into forming the final polished notebooks.
 
 ## Installation
 
@@ -54,12 +60,19 @@ To install and set up the project, please follow these steps:
 
 2. Install the required dependencies listed in the [Dependencies](#dependencies) section or install the provided conda environment `environment.yml`:
 
-``cd homonucu_loc
-conda env create -f environment.yml
-conda activate loc
-``
+```
+    cd homonucu_loc  
+    conda env create -f environment.yml  
+    conda activate loc  
+```
 
 This environment has been tested on `x86_64` `macos>=11` and `ubuntu>=20.04`.
+
+3. Install the native modules and check if all other dependencies are met:
+
+``pip install -e .``
+
+Every necessary component should now be installed.
 
 ## Usage
 
