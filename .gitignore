@@ -13,5 +13,7 @@ __pycache__
 notify.py
 *.npy
 aws_tools.py
-arx
-arx/
+*/arx/
+**/arx/
+**/*backup*/
+
