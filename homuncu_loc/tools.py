@@ -114,7 +114,7 @@ def instance_to_semantic(instance_image):
         for sc_label in tqdm(unique_labels[1:], leave=False):
 
             # get single cell label
-            segment = frame == sc_label
+            segment = instance_image == sc_label
 
             # erode segment so that it doesnt touch neighbours
             eroded_segment = binary_erosion(segment, footprint=np.ones((5, 5)))
